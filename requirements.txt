@@ -1,0 +1,4 @@
+# Required pip installations
+flask
+flask-restful
+sqlalchemy
