@@ -7,8 +7,8 @@ Flask API using Lahman's Baseball Database, 2019 SQLite version.
 1. Clone this repo navigate inside the project directory.
 2. Create a `virtualenv` with the following commands:
 ```
-$ virtualenv mlb-api
-$ source mlb-api/bin/activate
+$ virtualenv api
+$ source api/bin/activate
 ```
 3. Install the needed packages with the following command:
 ```
