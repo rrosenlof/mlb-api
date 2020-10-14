@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_restful import Resource, Api
 from sqlalchemy import create_engine, MetaData, Table
 from sqlalchemy.sql import select, bindparam
@@ -13,6 +13,11 @@ teams = Table('teams', metadata, autoload=True, autoload_with=e)
 app = Flask(__name__)
 api = Api(app)
 
+class About(Resource):
+    def get(self):
+        return 'MLB API: A simple REST API to return MLB stats as JSON objects.'
+
+
 class All_Parks(Resource):
     def get(self):
         conn = e.connect()
@@ -23,7 +28,7 @@ class All_Parks(Resource):
         for r in res:
             json_data.append(dict(zip(headers,r)))
         json_data = { 'parks': json_data }
-        return {'status': "success", 'data': json_data}
+        return jsonify({'status': "success", 'data': json_data})
 
 
 class All_Teams(Resource):
@@ -36,7 +41,7 @@ class All_Teams(Resource):
         for r in res:
             json_data.append(dict(zip(headers,r)))
         json_data = { 'teams': json_data }
-        return {'status': "success", 'data': json_data}
+        return jsonify({'status': "success", 'data': json_data})
 
 class Teams_By_Name(Resource):
     def get(self, franchID: str):
@@ -48,8 +53,9 @@ class Teams_By_Name(Resource):
         json_data = []
         for r in res:
             json_data.append(dict(zip(headers,r)))
-        return {'teams': [json_data]}
+        return jsonify({'teams': [json_data]})
 
+api.add_resource(About, '/')
 api.add_resource(All_Parks, '/parks')
 api.add_resource(All_Teams, '/teams')
 api.add_resource(Teams_By_Name, '/team/<string:franchID>')
